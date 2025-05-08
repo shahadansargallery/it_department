@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:it_department/presentation/screens/products/product_details.dart';
 import 'package:it_department/presentation/screens/scanner/barcode_scanner.dart';
+import 'package:it_department/presentation/widgets/logout_popups.dart';
 import 'package:it_department/presentation/widgets/popup.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,7 +25,13 @@ class _MyWidgetState extends State<HomeScreen> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(elevation: 0),
               child: Icon(Icons.logout_sharp),
-              onPressed: () => {},
+              onPressed:
+                  () => {
+                    showDialog(
+                      context: context,
+                      builder: (context) => LogoutPopup(),
+                    ),
+                  },
             ),
           ),
         ],
@@ -58,16 +66,17 @@ class _MyWidgetState extends State<HomeScreen> {
                 child: FloatingActionButton(
                   onPressed:
                       () => {
-                        showDialog(
-                          context: context,
-                          builder: (context) => Popup(),
-                        ),
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => BarcodeScanner(),
-                        //   ),
+                        // showDialog(
+                        //   context: context,
+                        //   builder: (context) => Popup(),
                         // ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BarcodeScanner(),
+                            // builder: (context) => ProductDetails("asdf"),
+                          ),
+                        ),
                       },
                   child: Image.asset(
                     "assets/images/barcode_scan.png",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:it_department/presentation/screens/products/product_details.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class BarcodeScanner extends StatefulWidget {
@@ -11,17 +12,24 @@ class BarcodeScanner extends StatefulWidget {
 class _MyWidgetState extends State<BarcodeScanner> {
   Barcode? _barcode;
 
-  Widget _barcodePreview(Barcode? value) {
-    if (value == null) {
-      return const Text(
-        'Scan something!',
-        overflow: TextOverflow.fade,
-        style: TextStyle(color: Colors.white),
-      );
+  bool _hasNavigated = false; // Declare this in your State class
+
+  Widget _barcodePreview(BuildContext context, Barcode? value) {
+    if (value != null && !_hasNavigated) {
+      _hasNavigated = true; // Prevent multiple navigations
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductDetails(value.displayValue),
+          ),
+        );
+      });
     }
 
     return Text(
-      value.displayValue ?? 'No display value.',
+      value?.displayValue ?? 'Scan something!',
       overflow: TextOverflow.fade,
       style: const TextStyle(color: Colors.white),
     );
@@ -38,7 +46,7 @@ class _MyWidgetState extends State<BarcodeScanner> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Simple Mobile Scanner')),
+      appBar: AppBar(title: const Text('Scan Barcode')),
       backgroundColor: Colors.black,
       body: Stack(
         children: [
@@ -52,7 +60,9 @@ class _MyWidgetState extends State<BarcodeScanner> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Expanded(child: Center(child: _barcodePreview(_barcode))),
+                  Expanded(
+                    child: Center(child: _barcodePreview(context, _barcode)),
+                  ),
                 ],
               ),
             ),

@@ -17,10 +17,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         brightness: Brightness.light,
       ),
-      home: Scaffold(
-        // appBar: AppBar(title: Text("Home"), backgroundColor: Colors.blueGrey),
-        body: SafeArea(child: LoginScreen()),
-      ),
+      home: LoginScreen(),
     );
   }
 }
